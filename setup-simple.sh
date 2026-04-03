@@ -29,7 +29,7 @@ sudo apt-get update -qq
 
 # Install ROS 2 Desktop
 echo "Installing ROS 2 Jazzy Desktop..."
-sudo apt-get install -y -qq ros-jazzy-desktop
+sudo apt install ros-jazzy-ros-base
 
 # Install development tools
 echo "Installing development tools..."
