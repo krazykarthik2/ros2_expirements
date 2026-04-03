@@ -1,15 +1,30 @@
 #!/bin/bash
 
-# Simple ROS 2 Setup for Ubuntu 24.04 (Non-interactive)
 set -e
-
 export LANG=C.UTF-8
 export DEBIAN_FRONTEND=noninteractive
 
 echo "=== ROS 2 Jazzy Setup for Ubuntu 24.04 ==="
 
-# Update package lists
 echo "Updating package lists..."
+sudo apt-get update -qq
+
+# Install prerequisites
+echo "Installing prerequisites..."
+sudo apt-get install -y -qq software-properties-common curl gnupg lsb-release
+
+# Add ROS 2 GPG key
+echo "Adding ROS 2 GPG key..."
+sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key \
+  -o /usr/share/keyrings/ros-archive-keyring.gpg
+
+# Add ROS 2 repository
+echo "Adding ROS 2 repository..."
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | \
+  sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
+
+# Update again after adding repo
+echo "Updating package lists again..."
 sudo apt-get update -qq
 
 # Install ROS 2 Desktop
@@ -31,10 +46,7 @@ if ! grep -q "source /opt/ros/jazzy/setup.bash" ~/.bashrc; then
     echo "source /opt/ros/jazzy/setup.bash" >> ~/.bashrc
 fi
 
-# Source the setup file for current session
 source /opt/ros/jazzy/setup.bash
 
 echo ""
 echo "=== ROS 2 Jazzy Installation Complete ==="
-echo "To use ROS 2, run: source /opt/ros/jazzy/setup.bash"
-echo "Or restart your terminal."

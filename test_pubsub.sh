@@ -28,7 +28,7 @@ cleanup() {
 trap cleanup SIGTERM SIGINT EXIT
 
 # Start talker in background
-python3 /workspaces/ros2_expirements/talker.py &
+python3 ./talker.py &
 TALKER_PID=$!
 PIDS+=($TALKER_PID)
 echo "Talker started (PID: $TALKER_PID)"
@@ -37,7 +37,9 @@ echo "Talker started (PID: $TALKER_PID)"
 sleep 1
 
 # Start listener in background
-python3 /workspaces/ros2_expirements/listener.py &
+
+
+python3 ./listener.py &
 LISTENER_PID=$!
 PIDS+=($LISTENER_PID)
 echo "Listener started (PID: $LISTENER_PID)"
